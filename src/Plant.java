@@ -1,6 +1,3 @@
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 public class Plant {
     // Attributes of the plant
     private String name;
@@ -21,7 +18,7 @@ public class Plant {
     }
      */
 
-    // Constructor using API data
+    /* Constructor using API data
     public Plant(String name) {
         JSONObject plantData = PerenualAPI.fetchPlantData(name);
         if (plantData != null) {
@@ -39,7 +36,14 @@ public class Plant {
             System.out.println("Plant data not found for: " + name);
         }
     }
+    */
 
+    public Plant(String name, String species, String waterFrequency, String sunlightNeeds) {
+        this.name = name;
+        this.species = species;
+        this.waterFrequency = waterFrequency;
+        this.sunlightNeeds = sunlightNeeds;
+    }
 
     // Getters and Setters
     public String getName() {
