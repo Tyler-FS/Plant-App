@@ -1,6 +1,6 @@
 package care.plant.plantappspring.service;
 
-import care.plant.plantappspring.model.Room;
+import care.plant.plantappspring.model.room.Room;
 import care.plant.plantappspring.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 
@@ -60,5 +60,27 @@ public class RoomService {
     // Delete a room by ID
     public void deleteRoomById(Long id) {
         roomRepository.deleteById(id);
+    }
+
+    public String getRoomNotifications(Long id) {
+        Room room = roomRepository.findById(id).orElseThrow();
+        room.restoreStates();
+        return String.format(
+                "Humidity: %s, Temperature: %s, Light: %s",
+                room.getHumidityState().getNotification(),
+                room.getTemperatureState().getNotification(),
+                room.getLightState().getNotification()
+        );
+    }
+
+    public String getRoomAdjustments(Long id) {
+        Room room = roomRepository.findById(id).orElseThrow();
+        room.restoreStates();
+        return String.format(
+                "Humidity: %s, Temperature: %s, Light: %s",
+                room.getHumidityState().suggestAdjustment(),
+                room.getTemperatureState().suggestAdjustment(),
+                room.getLightState().suggestAdjustment()
+        );
     }
 }

@@ -1,6 +1,6 @@
 package care.plant.plantappspring.repository;
 
-import care.plant.plantappspring.model.Room;
+import care.plant.plantappspring.model.room.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

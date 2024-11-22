@@ -1,6 +1,6 @@
 package care.plant.plantappspring.service;
 
-import care.plant.plantappspring.model.Plant;
+import care.plant.plantappspring.model.plant.Plant;
 import care.plant.plantappspring.repository.PlantRepository;
 import org.json.JSONObject;
 import org.springframework.data.domain.Page;

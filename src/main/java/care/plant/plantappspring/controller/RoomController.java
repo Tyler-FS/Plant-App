@@ -1,6 +1,6 @@
 package care.plant.plantappspring.controller;
 
-import care.plant.plantappspring.model.Room;
+import care.plant.plantappspring.model.room.Room;
 import care.plant.plantappspring.service.RoomService;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,4 +70,17 @@ public class RoomController {
     public void deleteRoomById(@PathVariable Long id) {
         roomService.deleteRoomById(id);
     }
+
+    // Get notifications for room conditions
+    @GetMapping("/{id}/notifications")
+    public String getRoomNotifications(@PathVariable Long id) {
+        return roomService.getRoomNotifications(id);
+    }
+
+    // Get adjustment suggestions for room conditions
+    @GetMapping("/{id}/adjustments")
+    public String getRoomAdjustments(@PathVariable Long id) {
+        return roomService.getRoomAdjustments(id);
+    }
 }
+

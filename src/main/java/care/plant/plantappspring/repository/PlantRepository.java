@@ -1,6 +1,6 @@
 package care.plant.plantappspring.repository;
 
-import care.plant.plantappspring.model.Plant;
+import care.plant.plantappspring.model.plant.Plant;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

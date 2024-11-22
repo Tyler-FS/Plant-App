@@ -1,4 +1,4 @@
-package care.plant.plantappspring.model;
+package care.plant.plantappspring.model.plant;
 
 import jakarta.persistence.*;
 import lombok.*;
