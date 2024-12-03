@@ -4,6 +4,7 @@ import care.plant.plantappspring.model.room.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
     // Query by humidity level
@@ -17,4 +18,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     // Query for sorted rooms by name
     List<Room> findAllByOrderByRoomNameAsc();
+
+    Optional<Room> findByRoomName(String roomName);
 }

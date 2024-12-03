@@ -1,5 +1,15 @@
 package care.plant.plantappspring.model.room;
 
+import care.plant.plantappspring.model.room.state.RoomConditionState;
+import care.plant.plantappspring.model.room.state.concretes.humidity.DryConditionState;
+import care.plant.plantappspring.model.room.state.concretes.humidity.HumidConditionState;
+import care.plant.plantappspring.model.room.state.concretes.humidity.OptimalConditionState;
+import care.plant.plantappspring.model.room.state.concretes.light.BrightLightState;
+import care.plant.plantappspring.model.room.state.concretes.light.LowLightState;
+import care.plant.plantappspring.model.room.state.concretes.light.OptimalLightState;
+import care.plant.plantappspring.model.room.state.concretes.tempurature.ColdConditionState;
+import care.plant.plantappspring.model.room.state.concretes.tempurature.HotConditionState;
+import care.plant.plantappspring.model.room.state.concretes.tempurature.OptimalTemperatureState;
 import jakarta.persistence.*;
 import lombok.*;
 

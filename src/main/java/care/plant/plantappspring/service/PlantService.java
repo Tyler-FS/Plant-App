@@ -2,6 +2,8 @@ package care.plant.plantappspring.service;
 
 import care.plant.plantappspring.model.plant.Plant;
 import care.plant.plantappspring.repository.PlantRepository;
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,14 +29,17 @@ public class PlantService {
     }
 
     // Add a new plant from Perenual API data
-    public Plant addPlantFromApiData(JSONObject plantJson) {
-        Plant plant = new Plant(
-                plantJson.getString("common_name"),
-                plantJson.getJSONArray("scientific_name").getString(0),
-                plantJson.optString("watering", "Unknown"),
-                plantJson.optString("sunlight", "Unknown"),
-                plantJson.optString("notes", "No additional notes")
-        );
+    public Plant addPlantFromApiData(@NotNull JSONObject plantJson) {
+        Plant plant = null;
+        try {
+            plant = new Plant(plantJson.getString("common_name"),
+                    plantJson.getJSONArray("scientific_name").getString(0),
+                    plantJson.optString("watering", "Unknown"),
+                    plantJson.optString("sunlight", "Unknown"),
+                    plantJson.optString("notes", "No additional notes"));
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
         return plantRepository.save(plant);
     }
 

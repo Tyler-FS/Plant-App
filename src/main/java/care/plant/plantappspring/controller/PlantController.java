@@ -2,6 +2,7 @@ package care.plant.plantappspring.controller;
 
 import care.plant.plantappspring.model.plant.Plant;
 import care.plant.plantappspring.service.PlantService;
+import lombok.SneakyThrows;
 import org.json.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ public class PlantController {
     }
 
     // Add a new plant from API data
+    @SneakyThrows
     @PostMapping("/from-api")
     public Plant addPlantFromApi(@RequestBody String plantJsonString) {
         JSONObject plantJson = new JSONObject(plantJsonString);

@@ -11,7 +11,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@NoArgsConstructor
+//@NoArgsConstructor
 public class Plant {
 
     @Id
@@ -26,14 +26,17 @@ public class Plant {
     @Lob
     private String notes; // Longer text for additional plant details
 
-    // Constructor for quick creation (optional)
-    public Plant(String name, String species, String waterFrequency, String sunlightNeeds, String notes) {
-        this.name = name;
-        this.species = species;
-        this.waterFrequency = waterFrequency;
-        this.sunlightNeeds = sunlightNeeds;
-        this.notes = notes;
+    public Plant(String commonName, String scientificName, String s, String s1, String s2) {
     }
+
+    // Constructor for quick creation (optional)
+//    public Plant(String name, String species, String waterFrequency, String sunlightNeeds, String notes) {
+//        this.name = name;
+//        this.species = species;
+//        this.waterFrequency = waterFrequency;
+//        this.sunlightNeeds = sunlightNeeds;
+//        this.notes = notes;
+//    }
 
     @Override
     public final boolean equals(Object o) {
