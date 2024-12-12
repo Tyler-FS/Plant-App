@@ -1,7 +1,9 @@
+plantappspring/config/DatabaseConnectionTest.class
 plantappspring/model/room/state/RoomConditionState.class
 plantappspring/model/room/state/concretes/humidity/DryConditionState.class
 plantappspring/service/RoomService.class
 com/example/application/Application.class
+com/example/application/views/HomeView.class
 plantappspring/model/plant/Plant.class
 plantappspring/model/room/state/concretes/humidity/OptimalConditionState.class
 plantappspring/service/PlantService.class

@@ -1,9 +1,11 @@
 /Users/tyler/IdeaProjects/Plant-App/src/main/java/com/example/application/Application.java
+/Users/tyler/IdeaProjects/Plant-App/src/main/java/com/example/application/views/HomeView.java
 /Users/tyler/IdeaProjects/Plant-App/src/main/java/com/example/application/views/MainLayout.java
 /Users/tyler/IdeaProjects/Plant-App/src/main/java/com/example/application/views/about/AboutView.java
 /Users/tyler/IdeaProjects/Plant-App/src/main/java/com/example/application/views/helloworld/HelloWorldView.java
 /Users/tyler/IdeaProjects/Plant-App/src/main/java/com/example/application/views/myview/MyViewView.java
 /Users/tyler/IdeaProjects/Plant-App/src/main/java/plantappspring/PlantAppSpringApplication.java
+/Users/tyler/IdeaProjects/Plant-App/src/main/java/plantappspring/config/DatabaseConnectionTest.java
 /Users/tyler/IdeaProjects/Plant-App/src/main/java/plantappspring/controller/PlantController.java
 /Users/tyler/IdeaProjects/Plant-App/src/main/java/plantappspring/controller/RoomController.java
 /Users/tyler/IdeaProjects/Plant-App/src/main/java/plantappspring/model/plant/Plant.java
