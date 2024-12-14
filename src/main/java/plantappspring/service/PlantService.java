@@ -1,14 +1,20 @@
 package plantappspring.service;
 
+import lombok.SneakyThrows;
 import plantappspring.model.plant.Plant;
+import plantappspring.model.plant.PlantJson;
+import plantappspring.repository.PlantJsonRepository;
 import plantappspring.repository.PlantRepository;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,20 +23,62 @@ import java.util.Optional;
 public class PlantService {
 
     private final PlantRepository plantRepository;
+    private final PlantJsonRepository plantJsonRepository;
+    private final RestTemplate restTemplate;
 
-    // Constructor for dependency injection
-    public PlantService(PlantRepository plantRepository) {
+    @Autowired
+    public PlantService(PlantRepository plantRepository, PlantJsonRepository plantJsonRepository, RestTemplate restTemplate) {
         this.plantRepository = plantRepository;
+        this.plantJsonRepository = plantJsonRepository;
+        this.restTemplate = restTemplate;
     }
 
-    // Add a new plant directly
+    /**
+     * Adds a new plant to the repository.
+     *
+     * @param plant the plant to add
+     * @return the saved plant
+     */
+    @Transactional
     public Plant addPlant(Plant plant) {
         return plantRepository.save(plant);
     }
 
-    // Add a new plant from Perenual API data
-    public Plant addPlantFromApiData(@NotNull JSONObject plantJson) {
-        Plant plant = null;
+    /**
+     * Adds a new plant from API data. Checks the local table for existing JSON data before querying the API.
+     *
+     * @param plantName the name of the plant
+     * @param apiUrl the URL of the API to query
+     * @return the saved plant
+     */
+    @SneakyThrows
+    @Transactional
+    public Plant addPlantFromApiData(@NotNull String plantName, @NotNull String apiUrl) {
+        Optional<PlantJson> existingJson = plantJsonRepository.findByPlantName(plantName);
+        JSONObject plantJson;
+
+        if (existingJson.isPresent()) {
+            plantJson = new JSONObject(existingJson.get().getJsonData());
+        } else {
+            String response = restTemplate.getForObject(apiUrl, String.class);
+            plantJson = new JSONObject(response);
+            PlantJson newPlantJson = new PlantJson();
+            newPlantJson.setPlantName(plantName);
+            newPlantJson.setJsonData(response);
+            plantJsonRepository.save(newPlantJson);
+        }
+
+        return savePlantFromJson(plantJson);
+    }
+
+    /**
+     * Saves a plant from JSON data.
+     *
+     * @param plantJson the JSON data of the plant
+     * @return the saved plant
+     */
+    private Plant savePlantFromJson(@NotNull JSONObject plantJson) {
+        Plant plant;
         try {
             plant = new Plant(plantJson.getString("common_name"),
                     plantJson.getJSONArray("scientific_name").getString(0),
@@ -43,53 +91,103 @@ public class PlantService {
         return plantRepository.save(plant);
     }
 
-    // Get a plant by ID
+    /**
+     * Retrieves a plant by its ID.
+     *
+     * @param id the ID of the plant
+     * @return an Optional containing the plant if found, or empty if not found
+     */
     public Optional<Plant> getPlantById(Long id) {
         return plantRepository.findById(id);
     }
 
-    // Get a plant by name
+    /**
+     * Retrieves a plant by its name.
+     *
+     * @param name the name of the plant
+     * @return an Optional containing the plant if found, or empty if not found
+     */
     public Optional<Plant> getPlantByName(String name) {
         return plantRepository.findByName(name);
     }
 
-    // Get all plants
+    /**
+     * Retrieves all plants.
+     *
+     * @return a list of all plants
+     */
     public List<Plant> getAllPlants() {
         return plantRepository.findAll();
     }
 
-    // Query plants by water frequency
+    /**
+     * Retrieves plants by their water frequency.
+     *
+     * @param waterFrequency the water frequency of the plants
+     * @return a list of plants with the specified water frequency
+     */
     public List<Plant> getPlantsByWaterFrequency(String waterFrequency) {
         return plantRepository.findByWaterFrequency(waterFrequency);
     }
 
-    // Query plants by sunlight needs
+    /**
+     * Retrieves plants by their sunlight needs.
+     *
+     * @param sunlightNeeds the sunlight needs of the plants
+     * @return a list of plants with the specified sunlight needs
+     */
     public List<Plant> getPlantsBySunlightNeeds(String sunlightNeeds) {
         return plantRepository.findBySunlightNeeds(sunlightNeeds);
     }
 
-    // Query plants with partial name matching
+    /**
+     * Retrieves plants with names containing the specified string.
+     *
+     * @param name the string to search for in plant names
+     * @return a list of plants with names containing the specified string
+     */
     public List<Plant> getPlantsByNameContaining(String name) {
         return plantRepository.findByNameContaining(name);
     }
 
-    // Query plants sorted by name
+    /**
+     * Retrieves all plants sorted by name.
+     *
+     * @return a list of all plants sorted by name
+     */
     public List<Plant> getPlantsSortedByName() {
         return plantRepository.findAllByOrderByNameAsc();
     }
 
-    // Query plants by water frequency and sunlight needs
+    /**
+     * Retrieves plants by their water frequency and sunlight needs.
+     *
+     * @param waterFrequency the water frequency of the plants
+     * @param sunlightNeeds the sunlight needs of the plants
+     * @return a list of plants with the specified water frequency and sunlight needs
+     */
     public List<Plant> getPlantsByWaterAndSunlight(String waterFrequency, String sunlightNeeds) {
         return plantRepository.findByWaterFrequencyAndSunlightNeeds(waterFrequency, sunlightNeeds);
     }
 
-    // Pagination example
+    /**
+     * Retrieves a paginated list of plants.
+     *
+     * @param page the page number to retrieve
+     * @param size the number of plants per page
+     * @return a paginated list of plants
+     */
     public Page<Plant> getPlantsPaginated(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return plantRepository.findAll(pageable);
     }
 
-    // Delete a plant by ID
+    /**
+     * Deletes a plant by its ID.
+     *
+     * @param id the ID of the plant to delete
+     */
+    @Transactional
     public void deletePlantById(Long id) {
         plantRepository.deleteById(id);
     }
