@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import plantappspring.config.ApiConfig;
 import plantappspring.model.plant.Plant;
 import plantappspring.model.plant.PlantJson;
+import plantappspring.model.room.Room;
 import plantappspring.repository.PlantJsonRepository;
 import plantappspring.repository.PlantRepository;
 import org.jetbrains.annotations.NotNull;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+import plantappspring.repository.RoomRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,13 +29,15 @@ public class PlantService {
     private final PlantJsonRepository plantJsonRepository;
     private final RestTemplate restTemplate;
     private final ApiConfig apiConfig;
+    private final RoomRepository roomRepository;
 
     @Autowired
-    public PlantService(PlantRepository plantRepository, PlantJsonRepository plantJsonRepository, RestTemplate restTemplate, ApiConfig apiConfig) {
+    public PlantService(PlantRepository plantRepository, PlantJsonRepository plantJsonRepository, RestTemplate restTemplate, ApiConfig apiConfig, RoomRepository roomRepository) {
         this.plantRepository = plantRepository;
         this.plantJsonRepository = plantJsonRepository;
         this.restTemplate = restTemplate;
         this.apiConfig = apiConfig;
+        this.roomRepository = roomRepository;
     }
 
     /**
@@ -94,6 +98,22 @@ public class PlantService {
         return plantRepository.save(plant);
     }
 
+    /**
+     * Updates a plant with the specified room.
+     *
+     * @param plantId the ID of the plant
+     * @param roomId the ID of the room
+     * @return the updated plant
+     */
+    @Transactional
+    public Plant updatePlantWithRoom(Long plantId, Long roomId) {
+        Plant plant = plantRepository.findById(plantId)
+                .orElseThrow(() -> new IllegalArgumentException("Plant not found"));
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new IllegalArgumentException("Room not found"));
+        plant.setRoom(room);
+        return plantRepository.save(plant);
+    }
 
     /**
      * Retrieves a plant by its ID.

@@ -1,5 +1,6 @@
 package plantappspring.controller;
 
+import org.springframework.http.ResponseEntity;
 import plantappspring.model.plant.Plant;
 import plantappspring.service.PlantService;
 import org.springframework.data.domain.Page;
@@ -39,6 +40,19 @@ public class PlantController {
     @PostMapping("/from-api")
     public Plant addPlantFromApi(@RequestParam String plantName, @RequestParam String apiUrl) {
         return plantService.addPlantFromApiData(plantName, apiUrl);
+    }
+
+    /**
+     * \[NEW\] Updates a plant with the specified room.
+     *
+     * @param plantId the ID of the plant
+     * @param roomId the ID of the room
+     * @return the updated plant
+     */
+    @PutMapping("/{plantId}/room/{roomId}")
+    public ResponseEntity<Plant> updatePlantWithRoom(@PathVariable Long plantId, @PathVariable Long roomId) {
+        Plant updatedPlant = plantService.updatePlantWithRoom(plantId, roomId);
+        return ResponseEntity.ok(updatedPlant);
     }
 
     /**

@@ -3,6 +3,7 @@ package plantappspring.model.plant;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
+import plantappspring.model.room.Room;
 
 import java.util.Objects;
 
@@ -42,6 +43,11 @@ public class Plant {
     @ManyToOne
     @JoinColumn(name = "json_id")
     private PlantJson plantJson;
+
+    //linking to Room
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
 
     public Plant(String commonName, String scientificName, String waterFrequency, String sunlightNeeds, String notes, PlantJson plantJson) {
         this.name = commonName;

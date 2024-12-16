@@ -17,26 +17,26 @@ import plantappspring.repository.PlantJsonRepository;
 @EnableJpaRepositories(basePackages = "plantappspring.repository")
 @EntityScan(basePackages = "plantappspring.model")
 @SpringBootApplication(scanBasePackages = "plantappspring")
-public class DataPopulator {
+public class DataPopulatorJSON {
 
     private final PlantJsonRepository plantJsonRepository;
     private final RestTemplate restTemplate;
 
-    public DataPopulator(PlantJsonRepository plantJsonRepository, RestTemplate restTemplate) {
+    public DataPopulatorJSON(PlantJsonRepository plantJsonRepository, RestTemplate restTemplate) {
         this.plantJsonRepository = plantJsonRepository;
         this.restTemplate = restTemplate;
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(DataPopulator.class, args);
+        SpringApplication.run(DataPopulatorJSON.class, args);
     }
 
     @Bean
     public CommandLineRunner run(ApplicationContext context) {
         return args -> {
-            DataPopulator dataPopulator = context.getBean(DataPopulator.class);
+            DataPopulatorJSON dataPopulatorJSON = context.getBean(DataPopulatorJSON.class);
             String apiUrl = context.getEnvironment().getProperty("api.url");
-            dataPopulator.populateInitialData(apiUrl);
+            dataPopulatorJSON.populateInitialData(apiUrl);
         };
     }
 
