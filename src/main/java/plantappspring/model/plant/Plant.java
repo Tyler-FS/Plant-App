@@ -38,6 +38,20 @@ public class Plant {
 //        this.notes = notes;
 //    }
 
+    //linking to PlantJson
+    @ManyToOne
+    @JoinColumn(name = "json_id")
+    private PlantJson plantJson;
+
+    public Plant(String commonName, String scientificName, String waterFrequency, String sunlightNeeds, String notes, PlantJson plantJson) {
+        this.name = commonName;
+        this.species = scientificName;
+        this.waterFrequency = waterFrequency;
+        this.sunlightNeeds = sunlightNeeds;
+        this.notes = notes;
+        this.plantJson = plantJson;
+    }
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;

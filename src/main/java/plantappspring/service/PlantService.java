@@ -1,6 +1,7 @@
 package plantappspring.service;
 
 import lombok.SneakyThrows;
+import plantappspring.config.ApiConfig;
 import plantappspring.model.plant.Plant;
 import plantappspring.model.plant.PlantJson;
 import plantappspring.repository.PlantJsonRepository;
@@ -25,12 +26,14 @@ public class PlantService {
     private final PlantRepository plantRepository;
     private final PlantJsonRepository plantJsonRepository;
     private final RestTemplate restTemplate;
+    private final ApiConfig apiConfig;
 
     @Autowired
-    public PlantService(PlantRepository plantRepository, PlantJsonRepository plantJsonRepository, RestTemplate restTemplate) {
+    public PlantService(PlantRepository plantRepository, PlantJsonRepository plantJsonRepository, RestTemplate restTemplate, ApiConfig apiConfig) {
         this.plantRepository = plantRepository;
         this.plantJsonRepository = plantJsonRepository;
         this.restTemplate = restTemplate;
+        this.apiConfig = apiConfig;
     }
 
     /**
@@ -48,7 +51,6 @@ public class PlantService {
      * Adds a new plant from API data. Checks the local table for existing JSON data before querying the API.
      *
      * @param plantName the name of the plant
-     * @param apiUrl the URL of the API to query
      * @return the saved plant
      */
     @SneakyThrows
@@ -60,7 +62,8 @@ public class PlantService {
         if (existingJson.isPresent()) {
             plantJson = new JSONObject(existingJson.get().getJsonData());
         } else {
-            String response = restTemplate.getForObject(apiUrl, String.class);
+            String formattedUrl = apiUrl.replace("[PLANT_ID]", plantName);
+            String response = restTemplate.getForObject(formattedUrl, String.class);
             plantJson = new JSONObject(response);
             PlantJson newPlantJson = new PlantJson();
             newPlantJson.setPlantName(plantName);
@@ -90,6 +93,7 @@ public class PlantService {
         }
         return plantRepository.save(plant);
     }
+
 
     /**
      * Retrieves a plant by its ID.
