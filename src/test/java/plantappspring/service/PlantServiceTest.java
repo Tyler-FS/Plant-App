@@ -55,7 +55,7 @@ class PlantServiceTest {
         Plant savedPlant = new Plant("Rose", "Rosa", "Frequent", "Full Sun", "Beautiful flower", plantJson);
         when(plantRepository.save(any(Plant.class))).thenReturn(savedPlant);
 
-        Plant result = plantService.addPlantFromApiData(plantName, apiUrl);
+        Plant result = plantService.addPlantFromApiData(plantName);
 
         assertEquals(savedPlant, result);
         verify(plantJsonRepository, never()).save(any(PlantJson.class));
@@ -78,7 +78,7 @@ class PlantServiceTest {
         Plant savedPlant = new Plant("Tulip", "Tulipa", "Moderate", "Partial Sun", "Spring flower", newPlantJson);
         when(plantRepository.save(any(Plant.class))).thenReturn(savedPlant);
 
-        Plant result = plantService.addPlantFromApiData(plantName, apiUrl);
+        Plant result = plantService.addPlantFromApiData(plantName);
 
         assertEquals(savedPlant, result);
         verify(plantJsonRepository).save(any(PlantJson.class));

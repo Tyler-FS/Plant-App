@@ -39,7 +39,7 @@ public class PlantController {
      */
     @PostMapping("/from-api")
     public Plant addPlantFromApi(@RequestParam String plantName, @RequestParam String apiUrl) {
-        return plantService.addPlantFromApiData(plantName, apiUrl);
+        return plantService.addPlantFromApiData(plantName);
     }
 
     /**

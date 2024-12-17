@@ -1,10 +1,12 @@
 package plantappspring.repository;
 
+import org.springframework.stereotype.Repository;
 import plantappspring.model.plant.Plant;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
+
 
 public interface PlantRepository extends JpaRepository<Plant, Long> {
     // Query by water frequency

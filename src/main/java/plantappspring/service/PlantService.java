@@ -59,14 +59,14 @@ public class PlantService {
      */
     @SneakyThrows
     @Transactional
-    public Plant addPlantFromApiData(@NotNull String plantName, @NotNull String apiUrl) {
+    public Plant addPlantFromApiData(@NotNull String plantName) {
         Optional<PlantJson> existingJson = plantJsonRepository.findByPlantName(plantName);
         JSONObject plantJson;
 
         if (existingJson.isPresent()) {
             plantJson = new JSONObject(existingJson.get().getJsonData());
         } else {
-            String formattedUrl = apiUrl.replace("[PLANT_ID]", plantName);
+            String formattedUrl = apiConfig.getApiUrl().replace("[PLANT_ID]", plantName);
             String response = restTemplate.getForObject(formattedUrl, String.class);
             plantJson = new JSONObject(response);
             PlantJson newPlantJson = new PlantJson();
