@@ -1,4 +1,4 @@
-package main.java.plantappspring.controller;
+package plantappspring.controller;
 
 import plantappspring.model.room.Room;
 import plantappspring.service.RoomService;

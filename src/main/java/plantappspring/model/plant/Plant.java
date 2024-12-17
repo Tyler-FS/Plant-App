@@ -3,6 +3,7 @@ package plantappspring.model.plant;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
+import plantappspring.model.room.Room;
 
 import java.util.Objects;
 
@@ -37,6 +38,25 @@ public class Plant {
 //        this.sunlightNeeds = sunlightNeeds;
 //        this.notes = notes;
 //    }
+
+    //linking to PlantJson
+    @ManyToOne
+    @JoinColumn(name = "json_id")
+    private PlantJson plantJson;
+
+    //linking to Room
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
+
+    public Plant(String commonName, String scientificName, String waterFrequency, String sunlightNeeds, String notes, PlantJson plantJson) {
+        this.name = commonName;
+        this.species = scientificName;
+        this.waterFrequency = waterFrequency;
+        this.sunlightNeeds = sunlightNeeds;
+        this.notes = notes;
+        this.plantJson = plantJson;
+    }
 
     @Override
     public final boolean equals(Object o) {

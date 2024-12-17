@@ -1,5 +1,6 @@
 package plantappspring.model.room;
 
+import plantappspring.model.plant.Plant;
 import plantappspring.model.room.state.RoomConditionState;
 import plantappspring.model.room.state.concretes.humidity.DryConditionState;
 import plantappspring.model.room.state.concretes.humidity.HumidConditionState;
@@ -12,6 +13,9 @@ import plantappspring.model.room.state.concretes.tempurature.HotConditionState;
 import plantappspring.model.room.state.concretes.tempurature.OptimalTemperatureState;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -39,6 +43,10 @@ public class Room {
     private String humidityStateName; // Persist the current humidity state
     private String temperatureStateName; // Persist the current temperature state
     private String lightStateName; // Persist the current light state
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "room_id")
+    private List<Plant> plants = new ArrayList<>();
 
     @Transient
     private RoomConditionState humidityState;
