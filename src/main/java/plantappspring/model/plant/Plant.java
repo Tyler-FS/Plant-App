@@ -73,4 +73,11 @@ public class Plant {
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
+
+    public String getJsonInfo() {
+        if (plantJson == null) {
+            return "No JSON information available.";
+        }
+        return plantJson.toString();
+    }
 }
